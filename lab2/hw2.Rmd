@@ -17,7 +17,7 @@ getwd()
 
 **2. Make a new folder in your lab 2 folder called `homework`. Now, change your current working directory to the `homework` folder using the setwd() function.**
 ```{r}
-setwd("/Users/catamorr/Desktop/BIS15L_W26_cdeamorrortu/lab2/Homework")
+setwd("~/Desktop/BIS15L_W26_cdeamorrortu/lab2/Homework")
 ```
 
 **3. Assign a new object `pi` to a value of 3.14159. You should now see the object `pi` in the environment window in the top right.** 
