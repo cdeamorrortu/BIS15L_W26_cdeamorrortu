@@ -18,37 +18,43 @@ library("tidyverse")
 In order to answer the questions below, you will need to do a little online research.
 
 **1. Make three new vectors that show the name, height in feet, and height in meters of the five tallest mountains in the world.**
-```{r}
 
+list of highest mountains on Earth: Wikipedia
+link: https://en.wikipedia.org/wiki/List_of_highest_mountains_on_Earth
+```{r}
+names <- c("everest", "k2", "kangchenjunga", "lhotse", "makalu")
+feet <- c(29032, 28251, 28169, 27940, 27838)
+meters <- c(8849, 8611, 8586, 8516, 8485)
 ```
 
 **2. Combine these vectors into a data frame called `mountains`.**
 ```{r}
-
+mountains <- tibble(names, feet, meters)
 ```
 
 **3. What is the mean height of the mountains in feet?**
 ```{r}
-
+mean(mountains$feet)
 ```
 
 **4. When were each of these mountains first climbed (i.e. in what year)? Make a new vector `first_climbed` and add it to the `mountains` data frame.**
 ```{r}
-
+first_climbed <- c(1953, 1954, 1955, 1956, 1955)
 ```
 
 ```{r}
-
+mountains$first_climbed <- first_climbed
 ```
 
 **5. How many times have each of these mountains been climbed? Make a new vector `summits` and add it to the `mountains` data frame.**
 ```{r}
-
+summits <- c(12884, 800, 312, 371, 499)
+mountains$summits <- summits
 ```
 
 **6. Which mountain has the highest number of fatalities? Make a new vector `fatalities` and add it to the `mountains` data frame.**
 ```{r}
-
+fatalities <- c(344, )
 ```
 
 **7. What is the fatality rate (i.e., fatalities divided by summits) for each mountain? Create a new vector `fatality_rate` and add it to the `mountains` data frame.**
