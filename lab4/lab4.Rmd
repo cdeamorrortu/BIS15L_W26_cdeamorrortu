@@ -203,9 +203,8 @@ ggplot(data = penguins,
 
 2. Make a bar plot showing the number of penguins of each species on each island. (Hint: use `fill` to distinguish species)
 ```{r}
-ggplot(data = penguins,
-      mapping = aes(x = island)) +
-  geom_bar(mapping = aes(fill = species))
+# ggplot(data = penguins,mapping = aes(x = island)) + geom_bar(mapping = aes(fill = species))
+ggplot(data = penguins, mapping = aes(x=island)) + geom_bar(mapping = aes(fill = species), position = "dodge")
 ```
 
 ## Wrap-up  
