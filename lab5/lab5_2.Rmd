@@ -78,7 +78,8 @@ The data are from: Gaeta J., G. Sass, S. Carpenter. 2012. Biocomplexity at North
 
 1. Load the data
 ```{r}
-fish <- read.csv("/Users/catamorr/Desktop/GitHub/BIS15L_W26_cdeamorrortu/lab5/data/Gaeta_etal_CLC_data.csv") #remember to use working directory here
+getwd()
+fish <- read.csv("/Users/cata/Desktop/BIS15L_W26_cdeamorrortu/lab5/data/Gaeta_etal_CLC_data.csv") #remember to use working directory here
 names(fish)
 ```
 
