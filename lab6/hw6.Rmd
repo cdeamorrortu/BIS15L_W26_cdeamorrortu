@@ -52,7 +52,7 @@ newgabon <-
 newgabon %>% 
   select(land_use, transect_id) %>% 
   ggplot(mapping = aes(x = land_use)) +
-  geom_bar()
+  geom_bar(mapping = aes(fill = land_use))
 ```
 
 ```{r}
@@ -61,7 +61,11 @@ newgabon %>%
 
 **6. How does vegetation richness compare among land use types?**
 ```{r}
-
+newgabon %>% 
+  select(land_use, veg_rich) %>% 
+  ggplot(mapping = aes(x = land_use, y = veg_rich)) +
+  geom_boxplot(mapping = aes(fill = land_use)) + 
+  labs(title = "Vegetation Among Land Use Types", x = "Land Use Type", y = "Vegetation Richness")
 ```
 
 **7. For which land use type (national parks, logging, or neither) is average all species diversity the greatest?**
