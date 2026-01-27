@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Your Name Here" />
+<meta name="author" content="Catalina De Amorrortu" />
 
 <meta name="date" content="2026-01-27" />
 
@@ -375,7 +375,7 @@ display: none;
 
 
 <h1 class="title toc-ignore">Homework 7</h1>
-<h4 class="author">Your Name Here</h4>
+<h4 class="author">Catalina De Amorrortu</h4>
 <h4 class="date">2026-01-27</h4>
 
 </div>
@@ -406,35 +406,68 @@ Repository</a>.</p>
 <p><strong>1. Before starting data analysis, read the abstract of the
 paper to get an idea of the questions being asked. In 2-3 sentences,
 describe what the study is testing and the variables
-involved.</strong><br />
-<br />
-<br />
-<br />
-<br />
-<br />
-</p>
+involved.</strong></p>
+<pre class="r"><code>&quot;The study is testing whether populations of survivors of large historical elephant harvests had less large tuskers, and whether the following generations had smaller tusks. The variables involved are tusk length and circumference, mean tusk length, mean basal tusk circumference, and homogeneity.&quot;</code></pre>
+<pre><code>## [1] &quot;The study is testing whether populations of survivors of large historical elephant harvests had less large tuskers, and whether the following generations had smaller tusks. The variables involved are tusk length and circumference, mean tusk length, mean basal tusk circumference, and homogeneity.&quot;</code></pre>
 <p><strong>2. Load <code>elephants.csv</code> and store it as a new
 object called <code>elephants</code>.</strong><br />
 <br />
 <br />
-<br />
-<br />
+</p>
+<pre class="r"><code>elephants &lt;- read_csv(&quot;data/elephants.csv&quot;) %&gt;% 
+  clean_names()</code></pre>
+<pre><code>## Rows: 777 Columns: 7
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): Years of sample collection, Elephant ID, Sex
+## dbl (4): Estimated Age (years), shoulder Height in  cm, Tusk Length in cm, T...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p><br />
 <br />
 </p>
 <p><strong>3. Clean the data by converting variable names to lowercase
 with no spaces or special characters.</strong><br />
 <br />
 <br />
-<br />
-<br />
+</p>
+<pre class="r"><code>clean_names(elephants)</code></pre>
+<pre><code>## # A tibble: 777 × 7
+##    years_of_sample_collection elephant_id sex   estimated_age_years
+##    &lt;chr&gt;                      &lt;chr&gt;       &lt;chr&gt;               &lt;dbl&gt;
+##  1 1966-68                    12          f                   0.08 
+##  2 1966-68                    34          f                   0.08 
+##  3 1966-68                    162         f                   0.083
+##  4 1966-68                    292         f                   0.083
+##  5 1966-68                    11          f                   0.25 
+##  6 1966-68                    152         f                   0.25 
+##  7 1966-68                    264         f                   0.25 
+##  8 1966-68                    263         f                   0.5  
+##  9 1966-68                    266         f                   0.5  
+## 10 1966-68                    217         f                   1    
+## # ℹ 767 more rows
+## # ℹ 3 more variables: shoulder_height_in_cm &lt;dbl&gt;, tusk_length_in_cm &lt;dbl&gt;,
+## #   tusk_circumference_in_cm &lt;dbl&gt;</code></pre>
+<p><br />
 <br />
 </p>
 <p><strong>4. Use one or more of the summary functions you have learned
 to get an idea of the structure of the data.</strong><br />
 <br />
 <br />
-<br />
-<br />
+</p>
+<pre class="r"><code>glimpse(elephants)</code></pre>
+<pre><code>## Rows: 777
+## Columns: 7
+## $ years_of_sample_collection &lt;chr&gt; &quot;1966-68&quot;, &quot;1966-68&quot;, &quot;1966-68&quot;, &quot;1966-68&quot;,…
+## $ elephant_id                &lt;chr&gt; &quot;12&quot;, &quot;34&quot;, &quot;162&quot;, &quot;292&quot;, &quot;11&quot;, &quot;152&quot;, &quot;264…
+## $ sex                        &lt;chr&gt; &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;…
+## $ estimated_age_years        &lt;dbl&gt; 0.080, 0.080, 0.083, 0.083, 0.250, 0.250, 0…
+## $ shoulder_height_in_cm      &lt;dbl&gt; 102, 89, 89, 92, 133, 100, 93, 108, 108, 12…
+## $ tusk_length_in_cm          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ tusk_circumference_in_cm   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</code></pre>
+<p><br />
 <br />
 </p>
 <p><strong>5. Use <code>mutate()</code> Change the variables
@@ -443,24 +476,44 @@ to get an idea of the structure of the data.</strong><br />
 dataframe and use it for the remaining questions.</strong><br />
 <br />
 <br />
-<br />
-<br />
+</p>
+<pre class="r"><code>elefactor &lt;- elephants %&gt;% 
+  mutate(years_of_sample_collection = as_factor(years_of_sample_collection), 
+         elephant_id = as_factor(elephant_id), 
+         sex = as_factor(sex))</code></pre>
+<p><br />
 <br />
 </p>
 <p><strong>6. From which years were data collected? Show the sample
 periods below.</strong><br />
 <br />
 <br />
-<br />
-<br />
+</p>
+<pre class="r"><code>elefactor %&gt;% 
+  select(years_of_sample_collection) %&gt;% 
+  distinct(years_of_sample_collection)</code></pre>
+<pre><code>## # A tibble: 2 × 1
+##   years_of_sample_collection
+##   &lt;fct&gt;                     
+## 1 1966-68                   
+## 2 2005-13</code></pre>
+<p><br />
 <br />
 </p>
 <p><strong>7. How many males and females were sampled in this
 study?</strong><br />
 <br />
 <br />
-<br />
-<br />
+</p>
+<pre class="r"><code>elefactor %&gt;% 
+  select(sex) %&gt;% 
+  count(sex)</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   sex       n
+##   &lt;fct&gt; &lt;int&gt;
+## 1 f       416
+## 2 m       361</code></pre>
+<p><br />
 <br />
 </p>
 <p><strong>8. What is the mean, median, and standard deviation for age
@@ -469,8 +522,71 @@ of sample collection. Does the sampling look even between years and
 sexes?</strong><br />
 <br />
 <br />
-<br />
-<br />
+</p>
+<pre class="r"><code>#elefactor %&gt;% 
+#  select(
+#    sex, estimated_age_years, years_of_sample_collection
+#  ) %&gt;% 
+#  summarize(sex, years_of_sample_collection,
+#    meanage = mean(estimated_age_years, na.rm = T),
+#    meadianage = median(estimated_age_years, na.rm = T),
+#    sdage = sd(estimated_age_years, na.rm = T)
+#  ) %&gt;% 
+#  distinct() %&gt;% 
+#  arrange(sex)
+## Both sexes on one table, arranged by sex
+
+elefactor %&gt;% 
+  select(
+    sex, estimated_age_years, years_of_sample_collection
+  ) %&gt;% 
+  filter(
+    sex == &quot;f&quot;
+  ) %&gt;% 
+  summarize(sex, years_of_sample_collection,
+    meanage = mean(estimated_age_years, na.rm = T),
+    meadianage = median(estimated_age_years, na.rm = T),
+    sdage = sd(estimated_age_years, na.rm = T)
+  ) %&gt;% 
+  distinct()</code></pre>
+<pre><code>## Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in
+## dplyr 1.1.0.
+## ℹ Please use `reframe()` instead.
+## ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()`
+##   always returns an ungrouped data frame and adjust accordingly.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   sex   years_of_sample_collection meanage meadianage sdage
+##   &lt;fct&gt; &lt;fct&gt;                        &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1 f     1966-68                       17.6         16  13.0
+## 2 f     2005-13                       17.6         16  13.0</code></pre>
+<pre class="r"><code>elefactor %&gt;% 
+  select(
+    sex, estimated_age_years, years_of_sample_collection
+  ) %&gt;% 
+  filter(
+    sex == &quot;m&quot;
+  ) %&gt;% 
+  summarize(sex, years_of_sample_collection,
+    meanage = mean(estimated_age_years, na.rm = T),
+    meadianage = median(estimated_age_years, na.rm = T),
+    sdage = sd(estimated_age_years, na.rm = T)
+  ) %&gt;% 
+  distinct()</code></pre>
+<pre><code>## Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in
+## dplyr 1.1.0.
+## ℹ Please use `reframe()` instead.
+## ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()`
+##   always returns an ungrouped data frame and adjust accordingly.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   sex   years_of_sample_collection meanage meadianage sdage
+##   &lt;fct&gt; &lt;fct&gt;                        &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1 m     1966-68                       12.1        8.5  10.6
+## 2 m     2005-13                       12.1        8.5  10.6</code></pre>
+<p><br />
 <br />
 </p>
 <p><strong>9. Is age (independent variable) a positive predictor of tusk
