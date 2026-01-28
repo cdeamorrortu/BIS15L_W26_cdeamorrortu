@@ -131,6 +131,7 @@ elefactor %>%
   ) %>% 
   distinct()
 
+
 elefactor %>% 
   select(
     sex, estimated_age_years, years_of_sample_collection
@@ -152,7 +153,10 @@ elefactor %>%
 **9. Is age (independent variable) a positive predictor of tusk length (dependent variable)? Create a plot that shows the relationship between these variables and add a linear model fit line.**  
 \
 \
-\
+```{r}
+
+```
+
 \
 \
 
