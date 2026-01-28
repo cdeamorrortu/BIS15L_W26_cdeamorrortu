@@ -104,18 +104,8 @@ elefactor %>%
 \
 ```{r}
 
-#elefactor %>% 
-#  select(
-#    sex, estimated_age_years, years_of_sample_collection
-#  ) %>% 
-#  summarize(sex, years_of_sample_collection,
-#    meanage = mean(estimated_age_years, na.rm = T),
-#    meadianage = median(estimated_age_years, na.rm = T),
-#    sdage = sd(estimated_age_years, na.rm = T)
-#  ) %>% 
-#  distinct() %>% 
-#  arrange(sex)
-## Both sexes on one table, arranged by sex
+#elefactor %>% select(sex, estimated_age_years, years_of_sample_collection) %>% summarize(sex, years_of_sample_collection, meanage = mean(estimated_age_years, na.rm = T), meadianage = median(estimated_age_years, na.rm = T), sdage = sd(estimated_age_years, na.rm = T)) %>% distinct() %>% arrange(sex)
+# Both sexes on one table, arranged by sex
 
 elefactor %>% 
   select(
@@ -154,7 +144,16 @@ elefactor %>%
 \
 \
 ```{r}
+#independent = x, dependent = y
+elefactor %>% 
+  select(estimated_age_years, tusk_length_in_cm) %>% 
+  ggplot(mapping = aes(x = estimated_age_years, y = tusk_length_in_cm)) + 
+  geom_point(na.rm = T) + 
+  geom_smooth(method = "lm", se = F) +
+  labs(title = "Effect of Age on Tusk Length", x = "Age (years)", y = "Tusk Length (cm)")
 
+#geom_point(na.rm = T) will remove the NA values!!!!!!!!!! important to remember
+#geom_smooth(method = "lm", se = F) adds line of best fit!
 ```
 
 \
@@ -163,21 +162,51 @@ elefactor %>%
 **10. Is shoulder height (independent variable) a positive predictor of tusk length (dependent variable)? Create a plot that shows the relationship between these variables and add a linear model fit line.**  
 \
 \
-\
+```{r}
+elefactor %>% 
+  select(shoulder_height_in_cm, tusk_length_in_cm) %>% 
+  ggplot(mapping = aes(x = shoulder_height_in_cm, y = tusk_length_in_cm)) +
+  geom_point(na.rm = T) +
+  geom_smooth(method = "lm", se = F) + 
+  labs(title = "Shoulder Height Effect on Tusk Length", x = "Shoulder Height (cm)", y = "Tusk Length (cm)")
+```
+
 \
 \
 
 **11. The authors argue that because poachers preferentially target elephants with large tusks, this has resulted in a decrease in average tusk length. Is this supported by the data? Show your code and calculations below.**  
 \
 \
-\
+```{r}
+elefactor %>% 
+  select(years_of_sample_collection, tusk_length_in_cm) %>% 
+  filter(years_of_sample_collection == "1966-68") %>% 
+  summarize(meantusk = mean(tusk_length_in_cm, na.rm = T))
+
+elefactor %>% 
+  select(years_of_sample_collection, tusk_length_in_cm) %>% 
+  filter(years_of_sample_collection == "2005-13") %>% 
+  summarize(meantusk = mean(tusk_length_in_cm, na.rm = T))
+```
+
 \
 \
 
 **12. Male elephants reach effective sexual maturity at 25 years while females are sexually mature at 12 years. Make a new dataframe that extracts only the males and females at sexual maturity. Then, make a plot that shows the range of tusk length between the two sample periods for these mature elephants.**   
 \
 \
-\
+```{r}
+glimpse(elefactor)
+
+#elefactor %>% filter((sex == "f"  estimated_age_years == 12) | (sex == "m" & estimated_age_years == 25))
+
+elefactor %>% 
+  filter(estimated_age_years == 12 | estimated_age_years == 25) %>% 
+  mutate(ifelse())
+  
+?ifelse
+```
+
 \
 \
 
