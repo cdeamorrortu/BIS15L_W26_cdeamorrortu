@@ -1,7 +1,7 @@
 ---
 title: "Homework 8"
 author: "Catalina De Amorrortu"
-date: "2026-02-03"
+date: "2026-02-04"
 output:
   html_document: 
     theme: spacelab
@@ -188,6 +188,25 @@ fisheries_clean %>%
 
 10. Perform one exploratory analysis of your choice. Make sure to clearly state the question you are asking before writing any code.
 
+``` r
+"How has fishing of Crucian Carp changed in Europe in the past decade?"
+```
+
+```
+## [1] "How has fishing of Crucian Carp changed in Europe in the past decade?"
+```
+
+``` r
+fisheries_clean %>% 
+  select(catch, common_name, continent, period) %>% 
+  filter(continent == "Europe" & common_name == "Crucian carp") %>% 
+  filter(period == 2013 | period == 2014 | period == 2015 | period == 2016 | period == 2017 | period == 2018 | period == 2019 | period == 2020 | period == 2021 | period == 2022 | period == 2023) %>% 
+  ggplot(mapping = aes(x = period)) +
+  geom_bar(mapping = aes(fill = period)) +
+  labs(title = "Crucian Carps Caught in Europe in the Decade 2013 - 2023", x = "Year", y = "Count")
+```
+
+![](hw8_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 ## Knit and Upload
 Please knit your work as an .html file and upload to Canvas. Homework is due before the start of the next lab. No late work is accepted. Make sure to use the formatting conventions of RMarkdown to make your report neat and clean!  

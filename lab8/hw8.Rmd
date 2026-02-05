@@ -105,7 +105,15 @@ fisheries_clean %>%
 
 10. Perform one exploratory analysis of your choice. Make sure to clearly state the question you are asking before writing any code.
 ```{r}
+"How has fishing of Crucian Carp changed in Europe in the past decade?"
 
+fisheries_clean %>% 
+  select(catch, common_name, continent, period) %>% 
+  filter(continent == "Europe" & common_name == "Crucian carp") %>% 
+  filter(period == 2013 | period == 2014 | period == 2015 | period == 2016 | period == 2017 | period == 2018 | period == 2019 | period == 2020 | period == 2021 | period == 2022 | period == 2023) %>% 
+  ggplot(mapping = aes(x = period)) +
+  geom_bar(mapping = aes(fill = period)) +
+  labs(title = "Crucian Carps Caught in Europe in the Decade 2013 - 2023", x = "Year", y = "Count")
 ```
 
 ## Knit and Upload
