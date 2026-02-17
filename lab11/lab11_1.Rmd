@@ -80,7 +80,7 @@ Let's rebuild the histogram, but this time we will specify the color and fill. D
 gap %>% 
   filter(year == 1935) %>% 
   ggplot(aes(x = lex)) +
-  geom_histogram(color = "turquoise4", fill = "turquoise2", bins = 30 +
+  geom_histogram(color = "turquoise4", fill = "turquoise2", bins = 30) +
   labs(title = "Distribution of Life expectancy")
 ```
 
@@ -100,7 +100,7 @@ gap %>%
   filter(year==1935) %>% 
   ggplot(aes(x = lex)) +
   geom_histogram(aes(y = after_stat(density)), color = "azure4", fill = "azure2") +
-    geom_density(color = "coral") +labs()
+    geom_density(color = "coral")
 ```
 
 ## Practice
