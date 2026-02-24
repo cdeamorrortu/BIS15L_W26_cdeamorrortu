@@ -60,6 +60,8 @@ summary(amniota.nas)
 
 ```{r}
 gg_miss_var(amniota.nas)
+
+"Subspecies, female body mass at maturity, and female svl at maturity have the top 3 most NAs in the dataset."
 ```
 
 
