@@ -39,7 +39,7 @@ library(janitor)
 ```{r message=FALSE, warning=FALSE}
 #install.packages("ggmap")
 library(ggmap)
-#install.packages("leaflet")
+install.packages("leaflet")
 library(leaflet)
 ```
 
@@ -173,7 +173,7 @@ bearsbbox <- make_bbox(bearslong, bearslat, f = 0.03)
 
 3. Load a map from `stadiamaps` in a `stamen_terrain` projection and display the map.
 ```{r}
-bearsmap <- get_stadiamap(bearsbbox, maptype = "stamen_terrain", zoom = 7)
+bearsmap <- get_stadiamap(bearsbbox, maptype = "stamen_terrain", zoom = 2)
 ```
 
 ```{r}
