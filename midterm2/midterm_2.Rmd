@@ -33,7 +33,7 @@ library(shiny)
 ## API Key
 Since you will build a map as part of the exam, take a moment to register your API key. You may need to look up your [stadia maps](https://client.stadiamaps.com/dashboard/overview) API key online (please do that now).
 ```{r}
-#register_stadiamaps("YOUR API KEY", write = FALSE)
+register_stadiamaps("95fc2c89-4097-40d9-aa48-b0ba8bad5a00", write = FALSE)
 ```
 
 ## About the data
@@ -72,25 +72,154 @@ polar_bears <-
 
 1. (2 points) List the variable names and use a summary function to get an idea of the data structure.
 
+```{r}
+names(polar_bears)
+glimpse(polar_bears)
+```
+
+
 2. (3 points) How are NA's represented and where are they distributed in the variables? Use the `naniar` package to visualize the distribution of NA's in the data and replace any alternative representations of NA with actual NA values.
+
+```{r}
+polar_bears %>% 
+  summarise(across(everything(), ~sum(is.na(.))))
+
+polar_bears
+
+"No explicit NAs in given dataset"
+
+polar_bears.no.nas <- #creating new with NA values replaced with NA
+polar_bears %>% 
+  replace_with_na_all(condition = ~.x %in% c(common_na_numbers, common_na_strings))
+
+polar_bears.no.nas %>% 
+  summarize(across(everything(), ~sum(is.na(.))))
+
+"Returns that there is one NA somewhere"
+
+polar_bears %>% #looking for the polar bear with NA urea nitrogen level
+  filter(urea_nitrogen == (common_na_numbers) | urea_nitrogen == common_na_strings) 
+
+
+"One polar bear has a urea nitrogen level of 66, which fits into the common replacements for NA. I will consider this an NA and keep the replacement."
+
+```
+
 
 3. (6 points) Is sampling even for both sexes? Make a count the shows the number of males and females sampled by population and make a plot to visualize the counts.
 
+```{r}
+polar_bears.no.nas %>% 
+  group_by(popn) %>% 
+  ggplot(mapping = aes(x = popn, fill = sex)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Number of Males and Females Represented in Each Population", x = "Population", y = "Count")
+
+"Sampling is relatively even for both sexes in each population, but there were a few more females tested in population SB."
+```
+
+
 4. (6 points) How many bears were sampled in each year for both populations? Make a line plot(s) to visualize sampling by year for both populations. (hint: you will need to pull apart the date to get the year in its own column)
+
+```{r}
+polar_bears.no.nas <- polar_bears.no.nas %>% 
+  separate(capture_date, c("year", "month", "day"), "-")
+
+polar_bears.no.nas %>% 
+  count(year) %>% 
+  ggplot(aes(x = year, y = n)) +
+  geom_line(na.rm = T, color = "orange") +
+  geom_point(shape = 5) +
+  labs(title = "Amount of Bears Sampled Each Year for Both CS and SB populations", x = "Year", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
 
 5. (2 points) What are the min, median, mean, and max values for `urea_nitrogen` and `creatinine`?
 
+```{r}
+
+#Urea Nitrogen:
+polar_bears.no.nas %>%  
+  select(urea_nitrogen) %>% 
+  mutate(min.urea.nitrogen = min(polar_bears.no.nas$urea_nitrogen, na.rm = T),
+         max.urea.nitrogen = max(polar_bears.no.nas$urea_nitrogen, na.rm = T),
+         mean.urea.nitrogen = mean(polar_bears.no.nas$urea_nitrogen, na.rm = T),
+         median.urea.nitrogen = median(polar_bears.no.nas$urea_nitrogen, na.rm = T)) %>% 
+  select(min.urea.nitrogen, max.urea.nitrogen, mean.urea.nitrogen, median.urea.nitrogen) %>% 
+  distinct()
+
+#Creatinine:
+polar_bears.no.nas %>%  
+  select(creatinine) %>% 
+  mutate(min.creatinine = min(polar_bears.no.nas$creatinine, na.rm = T),
+         max.creatinine = max(polar_bears.no.nas$creatinine, na.rm = T),
+         mean.creatinine = mean(polar_bears.no.nas$creatinine, na.rm = T),
+         median.creatinine = median(polar_bears.no.nas$creatinine, na.rm = T)) %>% 
+  select(min.creatinine, max.creatinine, mean.creatinine, median.creatinine) %>% 
+  distinct()
+```
+
+
 6. (3 points) As explained above, the ratio of `urea_nitrogen` to `creatinine` is used as an index of fasting. To calculate the ratio, we need to multiply `urea_nitrogen` by 0.466, then divide by `creatinine`. Create a new variable called `un_creat_ratio` that contains this calculation.
+
+```{r}
+#being asked to make new variables
+
+polar_bear.no.nas <- 
+  polar_bears.no.nas %>% 
+  mutate(un_creat_ratio = (urea_nitrogen*0.466)/creatinine)
+
+```
+
 
 7. (4 points) The authors of the study categorized bears as fasting if their `un_creat_ratio` was less than or equal to 10. Use `case_when()` to create a new variable called `fasting` that categorizes bears as fasting or not.
 
+```{r}
+#being asked to make new variables
+polar_bear.no.nas <- 
+polar_bear.no.nas %>% 
+  mutate(fasting = case_when(un_creat_ratio <= 10  ~ "fasting",
+            un_creat_ratio >10 ~ "not fasting"))
+```
+
+
 8. (6 points) The authors found that the number of fasting bears increased in the SB population but decreased in the CS population. Make a plot(s) that shows the number of fasting bears by year for both populations to visualize this trend.
 
+
+```{r}
+polar_bear.no.nas
+polar_bear.no.nas %>% 
+  select(year, popn, fasting) %>% 
+  filter(fasting == "fasting") %>% 
+  group_by(year) %>% 
+  ggplot(aes(x = year)) +
+  geom_bar(mapping = aes(fill = popn), position = "dodge") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  labs(title = "Fasting Bears per Population by Year", x = "Year", y = "Count")
+
+
+```
+ 
 9. (8 points) Where are the polar bears used in this study located? Make a static (not leaflet) distribution map that shows the locations of  bears by population. (hint: use `color=popn` in the `aes()` of `geom_point()`)
+
+```{r}
+bearslong <- polar_bear.no.nas %>% 
+  select(long)
+bearslat <- polar_bear.no.nas %>% 
+  select(lat)
+bearsbbox <- make_bbox(bearslong, bearslat, f = 0.03)
+
+bearsmap <- get_stadiamap(bearsbbox, maptype = "stamen_terrain", zoom = 5)
+ggmap(bearsmap) +
+geom_point(data = polar_bear.no.nas, aes(long, lat, color = popn), size = 0.5)
+
+```
+
 
 10. (10 points) Build a simple shiny app that shows the range of `un_creat_ratio` values for both populations. The user should be able to select the fill variable and choose between sex, mating, age_class, denning, and fasting. Please use the code chunk below so that your exam knits.
 ```{r, eval=F, echo=T}
-
 ```
 
 ## Submit the Midterm

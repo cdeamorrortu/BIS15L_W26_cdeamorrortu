@@ -25,7 +25,7 @@ output:
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(RColorBrewer)
-library(paletteer)
+#library(paletteer)
 library(janitor)
 ```
 
@@ -81,13 +81,13 @@ q + theme_classic()
 ## Legends
 There are lots of options to manipulate legends. Have a look [here](http://www.sthda.com/english/wiki/ggplot2-legend-easy-steps-to-change-the-position-and-the-appearance-of-a-graph-legend-in-r-software).
 ```{r}
-p+theme_wsj()+
-  theme(legend.position = "top",
-        axis.text.x = element_text(angle = 60, hjust=1))+
-  labs(title = "Observations by Taxon in Homerange Data",
-       x = NULL,
-       y= "n",
-       fill= "Trophic Guild")
+#p+theme_wsj()+
+#  theme(legend.position = "top",
+#        axis.text.x = element_text(angle = 60, hjust=1))+
+#  labs(title = "Observations by Taxon in Homerange Data",
+#       x = NULL,
+#       y= "n",
+#       fill= "Trophic Guild")
 ```
 
 ## Not enough? Try using `ggthemes`
