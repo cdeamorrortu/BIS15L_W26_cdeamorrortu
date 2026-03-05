@@ -92,29 +92,33 @@ There are five main types of BLAST, each designed for a specific combination of 
    
 7. Check the **Select All** box. Click on Download and select the **Alginment Descrptions CSV**. Download the results in CSV format. Using the command line move the file into your "data/blast_results" folder and rename the file to "genome01_blastn.csv".
 ```{}
-
+mc genome01_blastn.csv
 ```
 
 
    
 Load the blast search results into R. 
 ```{r}
-
+genome01_blastn <- read_csv("data/blast_results/genomw01_blasts_results")
 ```
 
 ```{r}
-
+glimse(gnome01_blastn)
 ```
 
 What was the top 5 hits for your blast search ? 
 ```{r}
-
+genome01_blastn %>% 
+  head(n = 5)
 ```
 
 
 Which hit had the highest e-value?**(include the description, taxid, e_value, and link to the accession number for this hit)**
 ```{r}
-
+genome01_blastn M
+select(description, e_vale, accession) %>% 
+  arrange(desc(e_value)) %>% 
+  slice_head(n = 1)
 ```
 
 ### View Fasta Files in R
